@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Caveat } from "next/font/google";
+import { Geist, Geist_Mono, Prata, Aguafina_Script } from "next/font/google";
 import "./globals.css";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 
@@ -13,8 +13,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const handwritten = Caveat({
-  variable: "--font-handwritten",
+const moralanaAlt = Prata({
+  variable: "--font-moralana",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const austrisa = Aguafina_Script({
+  variable: "--font-austrisa",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -31,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${handwritten.variable} antialiased bg-gray-50 text-gray-900`}
+        className={`${geistSans.variable} ${geistMono.variable} ${moralanaAlt.variable} ${austrisa.variable} antialiased bg-gray-50 text-gray-900`}
       >
         <ConvexClientProvider>
           {children}

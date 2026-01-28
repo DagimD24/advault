@@ -16,11 +16,8 @@ export default function LandingPageRoute() {
       
       {/* Navbar */}
       <nav className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between relative z-50">
-        <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center rotate-3 hover:rotate-0 transition-transform duration-300">
-                <span className="text-lime-400 font-handwritten font-bold text-2xl">Aa</span>
-            </div>
-            <span className="text-2xl font-handwritten font-bold tracking-wide italic">AdVault</span>
+        <div className="flex items-center">
+            <span className="font-austrisa text-6xl bg-gradient-to-br from-black from-[15%] via-black/80 to-lime-500 to-[85%] bg-clip-text text-transparent inline-block px-4 py-3 leading-normal translate-y-2">AV</span>
         </div>
         
         <div className="hidden md:flex items-center gap-8 bg-gray-100/50 backdrop-blur-md px-6 py-3 rounded-full border border-gray-200/50 shadow-sm">
@@ -61,10 +58,10 @@ export default function LandingPageRoute() {
                         <span className="text-xs font-bold tracking-wide uppercase text-gray-600">P2P Ad Market v2.0</span>
                     </div>
 
-                    <h1 className="text-7xl md:text-9xl font-handwritten font-bold tracking-tight leading-[0.8] text-black pt-4">
+                    <h1 className="text-6xl md:text-8xl font-moralana tracking-tight leading-[1.1] text-black">
                         Influence <br/>
                         <span className="inline-flex items-center gap-4">
-                            <span className="text-lime-500 animate-spin-slow text-5xl md:text-7xl drop-shadow-sm self-center">✦</span>
+                            <span className="text-lime-500 animate-spin-slow text-5xl md:text-7xl">✦</span>
                             Amplified
                         </span>
                     </h1>

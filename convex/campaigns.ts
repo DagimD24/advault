@@ -71,3 +71,80 @@ export const createByBrandName = mutation({
     });
   },
 });
+
+// Get all campaigns for a specific brand
+export const getByBrandId = query({
+  args: { brandId: v.id("brands") },
+  handler: async (ctx, args) => {
+    const campaigns = await ctx.db
+      .query("campaigns")
+      .withIndex("by_brandId", (q) => q.eq("brandId", args.brandId))
+      .collect();
+    return campaigns;
+  },
+});
+
+// Create a new campaign
+export const create = mutation({
+  args: {
+    brandId: v.id("brands"),
+    title: v.string(),
+    budget: v.string(),
+    currency: v.string(),
+    platform: v.string(),
+    campaignType: v.string(),
+    minFollowers: v.string(),
+    spots: v.number(),
+    deadline: v.string(),
+    description: v.string(),
+    requirements: v.array(v.string()),
+    audience: v.object({
+      location: v.string(),
+      age: v.string(),
+      gender: v.string(),
+    }),
+    trustScore: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db.insert("campaigns", args);
+  },
+});
+
+// Update a campaign
+export const update = mutation({
+  args: {
+    id: v.id("campaigns"),
+    title: v.optional(v.string()),
+    budget: v.optional(v.string()),
+    currency: v.optional(v.string()),
+    platform: v.optional(v.string()),
+    campaignType: v.optional(v.string()),
+    minFollowers: v.optional(v.string()),
+    spots: v.optional(v.number()),
+    deadline: v.optional(v.string()),
+    description: v.optional(v.string()),
+    requirements: v.optional(v.array(v.string())),
+    audience: v.optional(v.object({
+      location: v.string(),
+      age: v.string(),
+      gender: v.string(),
+    })),
+  },
+  handler: async (ctx, args) => {
+    const { id, ...updates } = args;
+    const filteredUpdates = Object.fromEntries(
+      Object.entries(updates).filter(([_, val]) => val !== undefined)
+    );
+    await ctx.db.patch(id, filteredUpdates);
+    return await ctx.db.get(id);
+  },
+});
+
+// Delete a campaign
+export const remove = mutation({
+  args: { id: v.id("campaigns") },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.id);
+  },
+});
+
