@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Plus, MoreHorizontal, Calendar, Users, Wallet, Edit, Trash2, Eye } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Campaign, Brand } from "@/lib/types";
 import { useMutation } from "convex/react";
@@ -143,10 +144,13 @@ export default function CampaignsTab({ campaigns, brand, onCreateCampaign, onEdi
                 </div>
 
                 {/* View Button */}
-                <button className="w-full py-3 px-4 bg-gray-50 text-black font-bold rounded-full hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                <Link 
+                  href={`/dashboard/campaign/${campaign._id}`}
+                  className="w-full py-3 px-4 bg-gray-50 text-black font-bold rounded-full hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center gap-2"
+                >
                   <Eye className="h-4 w-4" />
                   View Details
-                </button>
+                </Link>
               </div>
             );
           })}
