@@ -12,7 +12,7 @@
 
 # testing
 /coverage
-
+seed_applications.mjs
 # next.js
 /.next/
 /out/
