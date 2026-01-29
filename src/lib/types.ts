@@ -55,3 +55,25 @@ export interface Campaign {
 export interface JoinedCampaign extends Campaign {
   brand: Brand | null;
 }
+
+export type ApplicationStatus = "applicant" | "shortlisted" | "negotiating" | "hired" | "completed";
+export type ContentStatus = "pending" | "approved" | "revision_requested";
+
+export interface Application {
+  _id: Id<"applications">;
+  _creationTime: number;
+  campaignId: Id<"campaigns">;
+  creatorId: Id<"creators">;
+  status: ApplicationStatus;
+  matchScore: number;
+  bidAmount: string;
+  bidCurrency: string;
+  contentDraftUrl?: string;
+  contentStatus?: ContentStatus;
+  notes?: string;
+}
+
+export interface JoinedApplication extends Application {
+  creator: Creator | null;
+}
+
