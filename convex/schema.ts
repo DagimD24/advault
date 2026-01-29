@@ -48,4 +48,26 @@ export default defineSchema({
     }),
     trustScore: v.string(),
   }).index("by_brandId", ["brandId"]).index("by_platform", ["platform"]),
+
+  applications: defineTable({
+    campaignId: v.id("campaigns"),
+    creatorId: v.id("creators"),
+    status: v.union(
+      v.literal("applicant"),
+      v.literal("shortlisted"),
+      v.literal("negotiating"),
+      v.literal("hired"),
+      v.literal("completed")
+    ),
+    matchScore: v.number(),
+    bidAmount: v.string(),
+    bidCurrency: v.string(),
+    contentDraftUrl: v.optional(v.string()),
+    contentStatus: v.optional(v.union(
+      v.literal("pending"),
+      v.literal("approved"),
+      v.literal("revision_requested")
+    )),
+    notes: v.optional(v.string()),
+  }).index("by_campaignId", ["campaignId"]).index("by_creatorId", ["creatorId"]),
 });
