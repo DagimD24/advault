@@ -3,15 +3,18 @@
 import { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import Header from "@/components/Header";
+import Sidebar from "@/components/dashboard/Sidebar";
 import OverviewTab from "@/components/dashboard/OverviewTab";
 import CampaignsTab from "@/components/dashboard/CampaignsTab";
+import WalletTab from "@/components/dashboard/WalletTab";
+import ChatsTab from "@/components/dashboard/ChatsTab";
 import ProfileTab from "@/components/dashboard/ProfileTab";
 import CreateCampaignModal from "@/components/dashboard/CreateCampaignModal";
 import { Brand, Campaign } from "@/lib/types";
 
 export default function DashboardPage() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'profile'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'campaigns' | 'wallet' | 'chats' | 'profile'>('overview');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCampaign, setEditingCampaign] = useState<Campaign | null>(null);
 
@@ -57,28 +60,37 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#F3F4F6]">
-      <DashboardHeader 
-        brand={brand} 
-        activeTab={activeTab} 
-        onTabChange={setActiveTab} 
-      />
+      <Header />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {activeTab === 'overview' && (
-          <OverviewTab campaigns={campaigns || []} />
-        )}
-        {activeTab === 'campaigns' && (
-          <CampaignsTab 
-            campaigns={campaigns || []} 
-            brand={brand}
-            onCreateCampaign={handleCreateCampaign}
-            onEditCampaign={handleEditCampaign}
-          />
-        )}
-        {activeTab === 'profile' && (
-          <ProfileTab brand={brand} />
-        )}
-      </main>
+      <div className="flex pl-20">
+        <Sidebar 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab} 
+        />
+        
+        <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          {activeTab === 'overview' && (
+            <OverviewTab campaigns={campaigns || []} />
+          )}
+          {activeTab === 'campaigns' && (
+            <CampaignsTab 
+              campaigns={campaigns || []} 
+              brand={brand}
+              onCreateCampaign={handleCreateCampaign}
+              onEditCampaign={handleEditCampaign}
+            />
+          )}
+          {activeTab === 'wallet' && (
+            <WalletTab brand={brand} />
+          )}
+          {activeTab === 'chats' && (
+            <ChatsTab brand={brand} />
+          )}
+          {activeTab === 'profile' && (
+            <ProfileTab brand={brand} />
+          )}
+        </main>
+      </div>
 
       <CreateCampaignModal
         isOpen={isModalOpen}

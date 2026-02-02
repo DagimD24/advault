@@ -12,6 +12,8 @@ import type * as applications from "../applications.js";
 import type * as brands from "../brands.js";
 import type * as campaigns from "../campaigns.js";
 import type * as creators from "../creators.js";
+import type * as messages from "../messages.js";
+import type * as walletTransactions from "../walletTransactions.js";
 
 import type {
   ApiFromModules,
@@ -24,6 +26,8 @@ declare const fullApi: ApiFromModules<{
   brands: typeof brands;
   campaigns: typeof campaigns;
   creators: typeof creators;
+  messages: typeof messages;
+  walletTransactions: typeof walletTransactions;
 }>;
 
 /**

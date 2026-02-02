@@ -1,5 +1,5 @@
-{"name":"Coca-Cola","logo":"","verified":true,"industry":"Beverage"}
-{"name":"Telebirr","logo":"","verified":true,"industry":"FinTech"}
-{"name":"Kids Dianna Show","logo":"","verified":true,"industry":"FMCG"}
-{"name":"Kuriftu Resorts","logo":"","verified":true,"industry":"Hospitality"}
-{"name":"Safaricom","logo":"","verified":true,"industry":"Telecom"}
+{"name":"Coca-Cola","logo":"","verified":true,"industry":"Beverage","walletBalance":0,"walletCurrency":"USD"}
+{"name":"Telebirr","logo":"","verified":true,"industry":"FinTech","walletBalance":0,"walletCurrency":"ETB"}
+{"name":"Kids Dianna Show","logo":"","verified":true,"industry":"FMCG","walletBalance":0,"walletCurrency":"USD"}
+{"name":"Kuriftu Resorts","logo":"","verified":true,"industry":"Hospitality","walletBalance":0,"walletCurrency":"ETB"}
+{"name":"Safaricom","logo":"","verified":true,"industry":"Telecom","walletBalance":0,"walletCurrency":"KES"}

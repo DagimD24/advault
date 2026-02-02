@@ -33,6 +33,8 @@ export default function ApplicationsTable({ applications, onViewDetails }: Appli
       case "hired": return "bg-black text-white";
       case "negotiating": return "bg-blue-50 text-blue-700";
       case "shortlisted": return "bg-orange-50 text-orange-700";
+      case "pending_creator": return "bg-yellow-50 text-yellow-700";
+      case "declined": return "bg-red-50 text-red-700";
       default: return "bg-gray-50 text-gray-600";
     }
   };
@@ -88,9 +90,16 @@ export default function ApplicationsTable({ applications, onViewDetails }: Appli
                             </div>
                           )}
                         </div>
-                        <p className="text-[9px] text-gray-400 font-medium truncate">
-                          {creator.platform} • {creator.category}
-                        </p>
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-[9px] text-gray-400 font-medium truncate">
+                            {creator.platform} • {creator.category}
+                          </p>
+                          {app.initiatedBy === "brand" && (
+                            <span className="px-1 py-0.5 bg-black text-lime-400 rounded-[4px] text-[7px] font-black uppercase tracking-tighter leading-none">
+                              Direct
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </TableCell>
@@ -120,10 +129,10 @@ export default function ApplicationsTable({ applications, onViewDetails }: Appli
                   {/* Status / Stage */}
                   <TableCell className="py-3">
                     <span className={cn(
-                      "px-2 py-0.5 rounded-md text-[9px] font-bold uppercase",
+                      "px-2 py-0.5 rounded-md text-[9px] font-bold uppercase whitespace-nowrap",
                       getStatusColor(app.status)
                     )}>
-                      {app.status}
+                      {app.status.replace("_", " ")}
                     </span>
                   </TableCell>
 

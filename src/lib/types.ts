@@ -28,6 +28,23 @@ export interface Brand {
   logo: string;
   verified: boolean;
   industry: string;
+  walletBalance: number;
+  walletCurrency: string;
+}
+
+export type WalletTransactionType = "deposit" | "withdrawal" | "escrow_lock" | "escrow_release" | "refund";
+
+export interface WalletTransaction {
+  _id: Id<"walletTransactions">;
+  _creationTime: number;
+  brandId: Id<"brands">;
+  type: WalletTransactionType;
+  amount: number;
+  currency: string;
+  description: string;
+  reference?: string;
+  campaignId?: Id<"campaigns">;
+  createdAt: number;
 }
 
 export interface Campaign {
@@ -56,8 +73,9 @@ export interface JoinedCampaign extends Campaign {
   brand: Brand | null;
 }
 
-export type ApplicationStatus = "applicant" | "shortlisted" | "negotiating" | "hired" | "completed";
+export type ApplicationStatus = "pending_creator" | "applicant" | "shortlisted" | "negotiating" | "hired" | "completed" | "declined";
 export type ContentStatus = "pending" | "approved" | "revision_requested";
+export type InitiatedBy = "brand" | "creator";
 
 export interface Application {
   _id: Id<"applications">;
@@ -68,6 +86,9 @@ export interface Application {
   matchScore: number;
   bidAmount: string;
   bidCurrency: string;
+  initiatedBy: InitiatedBy;
+  offeredAmount?: number;
+  offeredCurrency?: string;
   contentDraftUrl?: string;
   contentStatus?: ContentStatus;
   notes?: string;
@@ -75,5 +96,16 @@ export interface Application {
 
 export interface JoinedApplication extends Application {
   creator: Creator | null;
+  campaign?: Campaign | null;
 }
 
+export interface Message {
+  _id: Id<"messages">;
+  _creationTime: number;
+  applicationId: Id<"applications">;
+  senderId: string;
+  senderType: "brand" | "creator";
+  content: string;
+  createdAt: number;
+  isRead: boolean;
+}

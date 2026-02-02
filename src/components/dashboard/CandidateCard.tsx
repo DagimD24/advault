@@ -12,7 +12,7 @@ interface CandidateCardProps {
   currentStage: ApplicationStatus;
 }
 
-const STAGE_ORDER: ApplicationStatus[] = ["applicant", "shortlisted", "negotiating", "hired", "completed"];
+const STAGE_ORDER: ApplicationStatus[] = ["pending_creator", "applicant", "shortlisted", "negotiating", "hired", "completed", "declined"];
 
 export default function CandidateCard({ 
   application, 
@@ -61,7 +61,14 @@ export default function CandidateCard({
               </div>
             )}
           </div>
-          <p className="text-[11px] text-gray-500 truncate">{creator.category} • {creator.platform}</p>
+          <div className="flex items-center gap-2">
+            <p className="text-[11px] text-gray-500 truncate">{creator.category} • {creator.platform}</p>
+            {application.initiatedBy === "brand" && (
+              <span className="px-1.5 py-0.5 bg-black text-[#BFFF07] rounded text-[8px] font-black uppercase tracking-tighter">
+                Direct Offer
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
@@ -92,7 +99,7 @@ export default function CandidateCard({
 
       {/* Action Buttons Row */}
       <div className="flex items-center gap-2">
-        {prevStage && (
+        {prevStage && currentStage !== "pending_creator" && currentStage !== "declined" && (
           <button
             onClick={(e) => { e.stopPropagation(); onMoveToStage(application._id, prevStage); }}
             className="p-2.5 text-gray-400 hover:text-black hover:bg-gray-100 rounded-xl border border-gray-100 transition-all active:scale-95"
@@ -109,7 +116,7 @@ export default function CandidateCard({
           View Details
         </button>
 
-        {nextStage && (
+        {nextStage && currentStage !== "pending_creator" && currentStage !== "declined" && (
           <button
             onClick={(e) => { e.stopPropagation(); onMoveToStage(application._id, nextStage); }}
             className="p-2.5 bg-lime-400 text-black rounded-xl hover:bg-black hover:text-white transition-all shadow-sm active:scale-95 border border-lime-400 hover:border-black"

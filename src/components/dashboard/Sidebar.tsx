@@ -1,0 +1,71 @@
+"use client";
+
+import { LayoutDashboard, Briefcase, Wallet, MessageSquare, User, Settings, LogOut } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+interface SidebarProps {
+  activeTab: 'overview' | 'campaigns' | 'wallet' | 'chats' | 'profile';
+  onTabChange: (tab: 'overview' | 'campaigns' | 'wallet' | 'chats' | 'profile') => void;
+}
+
+export default function Sidebar({ activeTab, onTabChange }: SidebarProps) {
+  const menuItems = [
+    { id: 'overview' as const, icon: LayoutDashboard, label: 'Overview' },
+    { id: 'campaigns' as const, icon: Briefcase, label: 'Campaigns' },
+    { id: 'wallet' as const, icon: Wallet, label: 'Wallet' },
+    { id: 'chats' as const, icon: MessageSquare, label: 'Chats' },
+    { id: 'profile' as const, icon: User, label: 'Profile' },
+  ];
+
+  return (
+    <aside className="fixed top-20 left-6 z-[60] flex flex-col items-center h-[calc(100vh-6.5rem)] pb-4">
+      {/* Invisible spacer to push the main pill to the center */}
+      <div className="flex-1" />
+
+      {/* Main Navigation Pill (Now Centered) */}
+      <div className="bg-white/80 backdrop-blur-md p-1.5 rounded-full shadow-lg border border-white/50 flex flex-col items-center gap-2">
+        {menuItems.map((item) => (
+          <button
+            key={item.id}
+            onClick={() => onTabChange(item.id)}
+            className={cn(
+              "p-4 rounded-full transition-all duration-300 relative group",
+              activeTab === item.id 
+                ? "bg-black text-white shadow-lg shadow-black/20" 
+                : "text-gray-400 hover:text-black hover:bg-gray-50"
+            )}
+          >
+            <item.icon className="h-6 w-6" />
+            
+            {/* Tooltip */}
+            <span className="absolute left-full ml-4 px-3 py-1.5 bg-black text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none translate-x-[-10px] group-hover:translate-x-0 whitespace-nowrap z-50 shadow-2xl">
+              {item.label}
+              <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-black"></span>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Invisible spacer to push the main pill to the center and actions to bottom */}
+      <div className="flex-1" />
+
+      {/* Bottom Actions Pill */}
+      <div className="bg-white/80 backdrop-blur-md p-1.5 rounded-full shadow-lg border border-white/50 flex flex-col items-center gap-2">
+        <button className="p-4 text-gray-400 hover:text-black hover:bg-gray-50 rounded-full transition-all group relative">
+          <Settings className="h-6 w-6" />
+          <span className="absolute left-full ml-4 px-3 py-1.5 bg-black text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none translate-x-[-10px] group-hover:translate-x-0 whitespace-nowrap z-50 shadow-2xl">
+            Settings
+            <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-black"></span>
+          </span>
+        </button>
+        <button className="p-4 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all group relative">
+          <LogOut className="h-6 w-6" />
+          <span className="absolute left-full ml-4 px-3 py-1.5 bg-black text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none translate-x-[-10px] group-hover:translate-x-0 whitespace-nowrap z-50 shadow-2xl">
+            Logout
+            <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-black"></span>
+          </span>
+        </button>
+      </div>
+    </aside>
+  );
+}

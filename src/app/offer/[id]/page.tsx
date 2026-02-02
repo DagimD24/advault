@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { Creator, JoinedCampaign } from "@/lib/types";
-import { Id } from "../../../../convex/_generated/dataModel";
 
 export default function OfferDetail() {
   const params = useParams();
@@ -80,7 +79,7 @@ export default function OfferDetail() {
                 {displayImage ? (
                   <img
                     src={displayImage}
-                    alt={displayName}
+                    alt={displayName || "Offer Image"}
                     className="h-full w-full rounded-[2rem] object-cover"
                   />
                 ) : (
@@ -276,9 +275,12 @@ export default function OfferDetail() {
                   </div>
 
                   <div className="space-y-3">
-                    <button className="w-full py-4 bg-black hover:bg-lime-400 hover:text-black text-white font-bold rounded-full shadow-lg shadow-black/10 transition-all transform hover:scale-[1.02] active:scale-[0.98]">
-                      {isBrand ? "Apply for Campaign" : "Buy Now"}
-                    </button>
+                    <Link 
+                      href={isBrand ? "#" : `/outreach/${id}`}
+                      className="block w-full py-4 bg-black hover:bg-lime-400 hover:text-black text-white font-bold rounded-full shadow-lg shadow-black/10 transition-all transform hover:scale-[1.02] active:scale-[0.98] text-center"
+                    >
+                      {isBrand ? "Apply for Campaign" : "Reach Out"}
+                    </Link>
                      <button className="w-full py-4 bg-white border border-gray-200 text-black font-bold rounded-full hover:bg-gray-50 transition-colors">
                       {isBrand ? "Message Brand" : "Contact Streamer"}
                     </button>

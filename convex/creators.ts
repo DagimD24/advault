@@ -15,3 +15,9 @@ export const getById = query({
     return await ctx.db.get(creatorId);
   },
 });
+
+export const getFirst = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("creators").first();
+  },
+});

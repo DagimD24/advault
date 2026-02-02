@@ -1,6 +1,6 @@
 "use client";
 
-import { Users, UserCheck, MessageSquare, Briefcase, CheckCircle } from "lucide-react";
+import { Users, UserCheck, MessageSquare, Briefcase, CheckCircle, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { JoinedApplication, ApplicationStatus } from "@/lib/types";
 import CandidateCard from "./CandidateCard";
@@ -20,6 +20,7 @@ interface KanbanColumn {
 }
 
 const COLUMNS: KanbanColumn[] = [
+  { id: "pending_creator", title: "Pending Offers", icon: Clock, color: "border-t-yellow-400" },
   { id: "applicant", title: "Applicants", icon: Users, color: "border-t-gray-400" },
   { id: "shortlisted", title: "Shortlisted", icon: UserCheck, color: "border-t-blue-400" },
   { id: "negotiating", title: "Negotiating", icon: MessageSquare, color: "border-t-purple-400" },

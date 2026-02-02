@@ -121,7 +121,8 @@ export default function ApplicationDetailsModal({ isOpen, onClose, application, 
             <div className="relative">
               <button 
                 onClick={() => setShowStatusDropdown(!showStatusDropdown)}
-                className="flex items-center gap-2 px-6 py-2.5 bg-gray-50 text-black rounded-full text-sm font-bold hover:bg-gray-100 transition-all border border-gray-100 active:scale-95"
+                disabled={application.status === "pending_creator" || application.status === "declined"}
+                className="flex items-center gap-2 px-6 py-2.5 bg-gray-50 text-black rounded-full text-sm font-bold hover:bg-gray-100 transition-all border border-gray-100 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Actions
                 <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", showStatusDropdown && "rotate-180")} />
@@ -130,7 +131,7 @@ export default function ApplicationDetailsModal({ isOpen, onClose, application, 
               {showStatusDropdown && (
                 <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-[110] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                   <p className="px-4 py-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-50 mb-1">Move to Stage</p>
-                  {(["applicant", "shortlisted", "negotiating", "hired", "completed"] as ApplicationStatus[]).map((status) => (
+                  {(["pending_creator", "applicant", "shortlisted", "negotiating", "hired", "completed", "declined"] as ApplicationStatus[]).map((status) => (
                     <button
                       key={status}
                       onClick={() => {
@@ -144,13 +145,20 @@ export default function ApplicationDetailsModal({ isOpen, onClose, application, 
                           : "text-gray-600 hover:bg-gray-50 hover:text-black"
                       )}
                     >
-                      <span className="capitalize">{status}</span>
+                      <span className="capitalize">{status.replace("_", " ")}</span>
                       {(pendingStatus || application.status) === status && <CheckCircle2 className="h-4 w-4" />}
                     </button>
                   ))}
                 </div>
               )}
             </div>
+
+            {application.initiatedBy === "brand" && (
+              <div className="px-4 py-2 bg-black text-white rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
+                <Target className="h-3 w-3 text-lime-400" />
+                Direct Outreach
+              </div>
+            )}
 
             <div className="h-8 w-px bg-gray-100 mx-1" />
 

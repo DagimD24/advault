@@ -7,8 +7,9 @@ import { ArrowLeft, Calendar, Wallet, Users, Target, LayoutGrid, List } from "lu
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { api } from "../../../../../convex/_generated/api";
-import { Campaign, JoinedApplication, ApplicationStatus } from "@/lib/types";
-import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import { Campaign, JoinedApplication, ApplicationStatus, Brand } from "@/lib/types";
+import Header from "@/components/Header";
+import Sidebar from "@/components/dashboard/Sidebar";
 import KanbanBoard from "@/components/dashboard/KanbanBoard";
 import ApplicationsTable from "@/components/dashboard/ApplicationsTable";
 import ApplicationDetailsModal from "@/components/dashboard/ApplicationDetailsModal";
@@ -24,7 +25,7 @@ export default function CampaignDetailPage() {
   const [viewMode, setViewMode] = useState<"kanban" | "table">("kanban");
 
   // Get campaign data
-  const campaign = useQuery(api.campaigns.getById, { id: campaignId }) as (Campaign & { brand: any }) | null | undefined;
+  const campaign = useQuery(api.campaigns.getById, { id: campaignId }) as (Campaign & { brand: Brand | null }) | null | undefined;
   
   // Get brand for header
   const brand = useQuery(api.brands.getFirst);
@@ -92,148 +93,150 @@ export default function CampaignDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#F3F4F6]">
-      <DashboardHeader 
-        brand={brand || null} 
-        activeTab="campaigns" 
-        onTabChange={() => router.push("/dashboard")} 
-      />
+      <Header />
       
-      <main className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Back Button */}
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center text-sm font-bold text-gray-500 hover:text-black transition-colors mb-6"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Campaigns
-        </Link>
+      <div className="flex pl-20">
+        <Sidebar 
+          activeTab="campaigns" 
+          onTabChange={() => router.push("/dashboard")} 
+        />
+        
+        <main className="flex-1 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Back Button */}
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center text-sm font-bold text-gray-500 hover:text-black transition-colors mb-6"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Campaigns
+          </Link>
 
-        {/* Campaign Header */}
-        <div className="bg-white rounded-[2.5rem] border border-gray-100 p-8 shadow-sm mb-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-lime-100 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-          
-          <div className="relative z-10">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-              <div>
-                <h1 className="text-3xl font-moralana text-black mb-2">{campaign.title}</h1>
-                <p className="text-gray-500 max-w-2xl">{campaign.description}</p>
-              </div>
-              
-              <div className="flex flex-wrap gap-4">
-                <div className="bg-gray-50 rounded-2xl px-5 py-3 border border-gray-100 flex items-center gap-3">
-                  <Wallet className="h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider font-bold">Budget</p>
-                    <p className="text-lg font-bold text-black">{campaign.budget} {campaign.currency}</p>
+          {/* Campaign Header */}
+          <div className="bg-white rounded-[2.5rem] border border-gray-100 p-8 shadow-sm mb-8 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-lime-100 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+            
+            <div className="relative z-10">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div>
+                  <h1 className="text-3xl font-moralana text-black mb-2">{campaign.title}</h1>
+                  <p className="text-gray-500 max-w-2xl">{campaign.description}</p>
+                </div>
+                
+                <div className="flex flex-wrap gap-4">
+                  <div className="bg-gray-50 rounded-2xl px-5 py-3 border border-gray-100 flex items-center gap-3">
+                    <Wallet className="h-5 w-5 text-gray-400" />
+                    <div>
+                      <p className="text-xs text-gray-400 uppercase tracking-wider font-bold">Budget</p>
+                      <p className="text-lg font-bold text-black">{campaign.budget} {campaign.currency}</p>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 rounded-2xl px-5 py-3 border border-gray-100 flex items-center gap-3">
+                    <Users className="h-5 w-5 text-gray-400" />
+                    <div>
+                      <p className="text-xs text-gray-400 uppercase tracking-wider font-bold">Spots</p>
+                      <p className="text-lg font-bold text-black">{campaign.spots}</p>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 rounded-2xl px-5 py-3 border border-gray-100 flex items-center gap-3">
+                    <Calendar className="h-5 w-5 text-gray-400" />
+                    <div>
+                      <p className="text-xs text-gray-400 uppercase tracking-wider font-bold">Deadline</p>
+                      <p className="text-lg font-bold text-black">{campaign.deadline}</p>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 rounded-2xl px-5 py-3 border border-gray-100 flex items-center gap-3">
+                    <Target className="h-5 w-5 text-gray-400" />
+                    <div>
+                      <p className="text-xs text-gray-400 uppercase tracking-wider font-bold">Min Followers</p>
+                      <p className="text-lg font-bold text-black">{campaign.minFollowers}</p>
+                    </div>
                   </div>
                 </div>
-                <div className="bg-gray-50 rounded-2xl px-5 py-3 border border-gray-100 flex items-center gap-3">
-                  <Users className="h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider font-bold">Spots</p>
-                    <p className="text-lg font-bold text-black">{campaign.spots}</p>
-                  </div>
-                </div>
-                <div className="bg-gray-50 rounded-2xl px-5 py-3 border border-gray-100 flex items-center gap-3">
-                  <Calendar className="h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider font-bold">Deadline</p>
-                    <p className="text-lg font-bold text-black">{campaign.deadline}</p>
-                  </div>
-                </div>
-                <div className="bg-gray-50 rounded-2xl px-5 py-3 border border-gray-100 flex items-center gap-3">
-                  <Target className="h-5 w-5 text-gray-400" />
-                  <div>
-                    <p className="text-xs text-gray-400 uppercase tracking-wider font-bold">Min Followers</p>
-                    <p className="text-lg font-bold text-black">{campaign.minFollowers}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Content Review Queue Alert */}
-        {pendingReviewApps.length > 0 && (
-          <div className="bg-orange-50 border border-orange-100 rounded-2xl p-4 mb-6 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 bg-orange-100 rounded-xl flex items-center justify-center">
-                <Target className="h-5 w-5 text-orange-600" />
-              </div>
-              <div>
-                <p className="font-bold text-orange-800">Content Pending Review</p>
-                <p className="text-sm text-orange-600">{pendingReviewApps.length} creator{pendingReviewApps.length > 1 ? 's have' : ' has'} submitted content for approval</p>
               </div>
             </div>
-            <button 
-              onClick={() => handleViewDetails(pendingReviewApps[0]._id)}
-              className="px-4 py-2 bg-orange-100 text-orange-700 font-bold rounded-full hover:bg-orange-200 transition-colors text-sm"
-            >
-              Review Now
-            </button>
           </div>
-        )}
 
-        {/* View Toggle & Title */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div>
-            <h2 className="text-xl font-bold text-black uppercase tracking-widest text-[11px] mb-1">Candidate Pipeline</h2>
-            <p className="text-xs text-gray-400 font-medium">Manage and track all campaign participants</p>
-          </div>
-          
-          <div className="flex bg-white/80 backdrop-blur-md p-1 rounded-2xl border border-gray-100 shadow-sm self-start">
-            <button
-              onClick={() => setViewMode("kanban")}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all",
-                viewMode === "kanban" 
-                  ? "bg-black text-white shadow-lg" 
-                  : "text-gray-400 hover:text-black hover:bg-gray-50"
-              )}
-            >
-              <LayoutGrid className="h-4 w-4" />
-              Kanban
-            </button>
-            <button
-              onClick={() => setViewMode("table")}
-              className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all",
-                viewMode === "table" 
-                  ? "bg-black text-white shadow-lg" 
-                  : "text-gray-400 hover:text-black hover:bg-gray-50"
-              )}
-            >
-              <List className="h-4 w-4" />
-              List
-            </button>
-          </div>
-        </div>
-
-        {/* Board or Table */}
-        <div className="mb-8 overflow-hidden min-h-[600px]">
-          {viewMode === "kanban" ? (
-            <div className="animate-in fade-in slide-in-from-left-4 duration-500 fill-mode-both">
-              <KanbanBoard
-                applications={applications || []}
-                onMoveToStage={handleMoveToStage}
-                onChat={handleChat}
-                onViewDetails={handleViewDetails}
-              />
-            </div>
-          ) : (
-            <div className="animate-in fade-in slide-in-from-right-4 duration-500 fill-mode-both">
-              <ApplicationsTable
-                applications={applications || []}
-                onMoveToStage={handleMoveToStage}
-                onChat={handleChat}
-                onViewDetails={handleViewDetails}
-              />
+          {/* Content Review Queue Alert */}
+          {pendingReviewApps.length > 0 && (
+            <div className="bg-orange-50 border border-orange-100 rounded-2xl p-4 mb-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                  <Target className="h-5 w-5 text-orange-600" />
+                </div>
+                <div>
+                  <p className="font-bold text-orange-800">Content Pending Review</p>
+                  <p className="text-sm text-orange-600">{pendingReviewApps.length} creator{pendingReviewApps.length > 1 ? 's have' : ' has'} submitted content for approval</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => handleViewDetails(pendingReviewApps[0]._id)}
+                className="px-4 py-2 bg-orange-100 text-orange-700 font-bold rounded-full hover:bg-orange-200 transition-colors text-sm"
+              >
+                Review Now
+              </button>
             </div>
           )}
-        </div>
-      </main>
 
-      {/* Application Details Modal */}
+          {/* View Toggle & Title */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-xl font-bold text-black uppercase tracking-widest text-[11px] mb-1">Candidate Pipeline</h2>
+              <p className="text-xs text-gray-400 font-medium">Manage and track all campaign participants</p>
+            </div>
+            
+            <div className="flex bg-white/80 backdrop-blur-md p-1 rounded-2xl border border-gray-100 shadow-sm self-start">
+              <button
+                onClick={() => setViewMode("kanban")}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all",
+                  viewMode === "kanban" 
+                    ? "bg-black text-white shadow-lg" 
+                    : "text-gray-400 hover:text-black hover:bg-gray-50"
+                )}
+              >
+                <LayoutGrid className="h-4 w-4" />
+                Kanban
+              </button>
+              <button
+                onClick={() => setViewMode("table")}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all",
+                  viewMode === "table" 
+                    ? "bg-black text-white shadow-lg" 
+                    : "text-gray-400 hover:text-black hover:bg-gray-50"
+                )}
+              >
+                <List className="h-4 w-4" />
+                List
+              </button>
+            </div>
+          </div>
+
+          {/* Board or Table */}
+          <div className="mb-8 overflow-hidden min-h-[600px]">
+            {viewMode === "kanban" ? (
+              <div className="animate-in fade-in slide-in-from-left-4 duration-500 fill-mode-both">
+                <KanbanBoard
+                  applications={applications || []}
+                  onMoveToStage={handleMoveToStage}
+                  onChat={handleChat}
+                  onViewDetails={handleViewDetails}
+                />
+              </div>
+            ) : (
+              <div className="animate-in fade-in slide-in-from-right-4 duration-500 fill-mode-both">
+                <ApplicationsTable
+                  applications={applications || []}
+                  onMoveToStage={handleMoveToStage}
+                  onChat={handleChat}
+                  onViewDetails={handleViewDetails}
+                />
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
+
       <ApplicationDetailsModal
         isOpen={detailsModalOpen}
         onClose={() => { setDetailsModalOpen(false); setSelectedApplication(null); }}
