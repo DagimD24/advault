@@ -4,11 +4,11 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import Link from "next/link";
-import { 
-  ArrowLeft, BadgeCheck, Check, Calendar, Users, Target, 
-  Clock, FileText, Send, Briefcase, MapPin, Loader2 
+import {
+  ArrowLeft, BadgeCheck, Check, Calendar, Users, Target,
+  Clock, FileText, Send, Briefcase, MapPin, Loader2
 } from "lucide-react";
-import { api } from "../../../../../convex/_generated/api";
+import { api } from "../../../../convex/_generated/api";
 import Header from "@/components/Header";
 import { cn } from "@/lib/utils";
 import { Campaign, Creator } from "@/lib/types";
@@ -34,7 +34,7 @@ export default function CampaignDetailPage() {
 
   // Fetch campaign details
   const campaign = useQuery(api.campaigns.getById, { id: campaignId }) as CampaignWithBrand | null | undefined;
-  
+
   // Get demo creator
   const creator = useQuery(api.creators.getFirst) as Creator | null | undefined;
 

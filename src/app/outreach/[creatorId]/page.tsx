@@ -23,10 +23,10 @@ export default function OutreachPage() {
 
   // Fetch creator details
   const creator = useQuery(api.creators.getById, { id: creatorId }) as Creator | null | undefined;
-  
+
   // Get brand (mock - using first brand)
   const brand = useQuery(api.brands.getFirst) as Brand | null | undefined;
-  
+
   // Get brand's campaigns
   const campaigns = useQuery(
     api.campaigns.getByBrandId,
@@ -43,7 +43,7 @@ export default function OutreachPage() {
       // Remove commas for the input field to make it strictly numeric
       setOfferAmount(creator.startingPrice.replace(/,/g, ""));
     }
-    
+
     if (campaigns && campaigns.length > 0 && !selectedCampaignId) {
       setSelectedCampaignId(campaigns[0]._id);
     }
@@ -134,7 +134,7 @@ export default function OutreachPage() {
         {/* Breadcrumb */}
         <div className="mb-8">
           <Link
-            href={`/offer/${creatorId}`}
+            href={`/creators/${creatorId}`}
             className="inline-flex items-center text-sm font-bold text-gray-500 hover:text-black transition-colors"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -159,7 +159,7 @@ export default function OutreachPage() {
                 <Briefcase className="h-5 w-5 text-lime-500" />
                 Select a Campaign
               </h2>
-              
+
               {!campaigns || campaigns.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-gray-500 mb-4">You don't have any active campaigns yet.</p>
@@ -214,7 +214,7 @@ export default function OutreachPage() {
                 <Wallet className="h-5 w-5 text-lime-500" />
                 Your Offer
               </h2>
-              
+
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-bold text-gray-500 mb-2">
@@ -245,7 +245,7 @@ export default function OutreachPage() {
                 <Send className="h-5 w-5 text-lime-500" />
                 Your Message
               </h2>
-              
+
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
@@ -315,7 +315,7 @@ export default function OutreachPage() {
                     {error}
                   </div>
                 )}
-                
+
                 <button
                   onClick={handleSubmit}
                   disabled={isSubmitting}

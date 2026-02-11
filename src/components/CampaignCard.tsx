@@ -43,7 +43,7 @@ export default function CampaignCard({
   };
 
   return (
-    <Link href={`/creator/campaign/${id}`} className="block group">
+    <Link href={`/campaigns/${id}`} className="block group">
       <div className="bg-white rounded-[2rem] border border-gray-100 p-6 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 hover:-translate-y-1">
         {/* Brand Header */}
         <div className="flex items-center gap-3 mb-5">

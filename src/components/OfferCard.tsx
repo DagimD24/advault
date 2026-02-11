@@ -51,9 +51,9 @@ export default function OfferCard({
               )}
             </div>
             <div className="flex items-center gap-2 text-xs font-medium mt-0.5">
-               <span className="text-gray-500">{category}</span>
-               <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-               <span className="text-lime-600 font-bold">{platform}</span>
+              <span className="text-gray-500">{category}</span>
+              <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+              <span className="text-lime-600 font-bold">{platform}</span>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default function OfferCard({
 
       {/* Action Button */}
       <Link
-        href={`/offer/${id}`}
+        href={`/creators/${id}`}
         className="w-full block text-center py-4 px-6 bg-black text-white font-bold rounded-full transition-all duration-300 shadow-sm"
       >
         View Details

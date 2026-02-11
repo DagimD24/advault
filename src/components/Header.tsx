@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 export default function Header() {
   const pathname = usePathname();
   const isDashboard = pathname.includes('/dashboard');
+  const isCreatorMode = pathname === '/creator' || pathname.startsWith('/creator/') || pathname.startsWith('/campaigns/');
 
   return (
     <header className="sticky top-0 z-50 bg-[#F3F4F6]/80 backdrop-blur-md border-b border-white/50">
@@ -24,7 +25,7 @@ export default function Header() {
           <div className="hidden md:flex items-center justify-center flex-1">
             <div className="bg-white p-1.5 rounded-full shadow-sm border border-gray-200/50 flex items-center font-medium text-sm">
               <Link
-                href={pathname.includes('/creator') ? "/creator" : "/"}
+                href={isCreatorMode ? "/creator" : "/"}
                 className={cn(
                   "px-6 py-2.5 rounded-full transition-all duration-300 font-bold",
                   (!isDashboard && !pathname.includes('/creator/dashboard'))
@@ -32,10 +33,10 @@ export default function Header() {
                     : "text-gray-500 hover:text-black hover:bg-gray-50"
                 )}
               >
-                {pathname.includes('/creator') ? "Discover Campaigns" : "Discover Creators"}
+                {isCreatorMode ? "Discover Campaigns" : "Discover Creators"}
               </Link>
               <Link
-                href={pathname.includes('/creator') ? "/creator/dashboard" : "/dashboard"}
+                href={isCreatorMode ? "/creator/dashboard" : "/dashboard"}
                 className={cn(
                   "px-6 py-2.5 rounded-full transition-all duration-300 font-bold",
                   (isDashboard || pathname.includes('/creator/dashboard'))
@@ -43,7 +44,7 @@ export default function Header() {
                     : "text-gray-500 hover:text-black hover:bg-gray-50"
                 )}
               >
-                {pathname.includes('/creator') ? "My Dashboard" : "My Campaigns"}
+                {isCreatorMode ? "My Dashboard" : "My Campaigns"}
               </Link>
             </div>
           </div>

@@ -131,10 +131,13 @@ export default function DealsTab({ applications }: DealsTabProps) {
             </button>
           </div>
         ) : (
-          <button className="w-full py-3 bg-gray-50 text-black font-bold rounded-xl hover:bg-gray-100 transition-all flex items-center justify-center gap-2">
+          <Link
+            href={`/campaigns/${deal.campaignId}`}
+            className="w-full py-3 bg-gray-50 text-black font-bold rounded-xl hover:bg-gray-100 transition-all flex items-center justify-center gap-2"
+          >
             View Details
             <ChevronRight className="h-4 w-4" />
-          </button>
+          </Link>
         )}
       </div>
     );
