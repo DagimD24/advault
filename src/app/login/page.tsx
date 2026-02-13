@@ -55,7 +55,7 @@ export default function LoginPage() {
     });
 
     return (
-        <div className="min-h-screen bg-[#F3F4F6] flex flex-col">
+        <div className="min-h-screen font-jost bg-background flex flex-col">
             <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-lime-400 rounded-full blur-[150px] opacity-10 -translate-y-1/2 translate-x-1/3 pointer-events-none" />
             <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-lime-400 rounded-full blur-[150px] opacity-10 translate-y-1/2 -translate-x-1/3 pointer-events-none" />
 

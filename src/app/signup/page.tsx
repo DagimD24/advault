@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Building2, Sparkles, Check } from "lucide-react";
+import { ArrowRight, Building2, UserCircle, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Role = "brand" | "creator" | null;
@@ -21,7 +21,7 @@ export default function SignupPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F3F4F6] flex flex-col">
+        <div className="min-h-screen font-jost bg-background flex flex-col">
             {/* Decorative blobs */}
             <div className="fixed top-0 right-0 w-[600px] h-[600px] bg-lime-400 rounded-full blur-[150px] opacity-10 -translate-y-1/2 translate-x-1/3 pointer-events-none" />
             <div className="fixed bottom-0 left-0 w-[400px] h-[400px] bg-lime-300 rounded-full blur-[120px] opacity-10 translate-y-1/2 -translate-x-1/4 pointer-events-none" />
@@ -140,7 +140,7 @@ export default function SignupPage() {
                             </div>
 
                             <div className="w-16 h-16 bg-gray-50 rounded-[1.5rem] flex items-center justify-center mb-6 border border-gray-100 group-hover:bg-lime-50 group-hover:border-lime-100 transition-colors">
-                                <Sparkles className="h-7 w-7 text-gray-600 group-hover:text-lime-600 transition-colors" />
+                                <UserCircle className="h-8 w-8 text-gray-600 group-hover:text-lime-600 transition-colors" />
                             </div>
 
                             <h3 className="text-2xl font-bold text-black mb-2">

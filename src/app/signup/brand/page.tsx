@@ -21,6 +21,27 @@ import { z } from "zod";
 
 type Step = 1 | 2 | 3;
 
+const step1Schema = z.object({
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+});
+
+const step2Schema = z.object({
+    brandName: z.string().min(2, "Brand name is too short"),
+    industry: z.string().min(1, "Please select an industry"),
+    logo: z.string().url("Invalid logo URL").optional().or(z.literal("")),
+    walletCurrency: z.string().min(1, "Select a currency"),
+});
+
+const step3Schema = z.object({
+    website: z.string().url("Invalid website URL").optional().or(z.literal("")),
+    description: z.string().optional(),
+});
+
 export default function BrandSignupPage() {
     const router = useRouter();
     const [step, setStep] = useState<Step>(1);
@@ -57,6 +78,14 @@ export default function BrandSignupPage() {
         onSubmit: async ({ value }) => {
             setServerError("");
             try {
+                // Final validation before submission
+                const fullSchema = step1Schema.and(step2Schema).and(step3Schema);
+                const result = fullSchema.safeParse(value);
+                if (!result.success) {
+                    setServerError(result.error.errors[0].message);
+                    return;
+                }
+
                 // TODO: Replace with actual registration logic
                 await new Promise((resolve) => setTimeout(resolve, 1500));
                 router.push("/dashboard");
@@ -68,30 +97,21 @@ export default function BrandSignupPage() {
 
     const handleNext = async () => {
         const values = form.state.values;
+        let result;
+
         if (step === 1) {
-            if (!values.email || !values.password || !values.confirmPassword) {
-                setServerError("Please fill in account details.");
-                return;
-            }
-            if (!/\S+@\S+\.\S+/.test(values.email)) {
-                setServerError("Invalid email address.");
-                return;
-            }
-            if (values.password.length < 8) {
-                setServerError("Password must be at least 8 characters.");
-                return;
-            }
-            if (values.password !== values.confirmPassword) {
-                setServerError("Passwords do not match.");
-                return;
-            }
+            result = step1Schema.safeParse(values);
+        } else if (step === 2) {
+            result = step2Schema.safeParse(values);
+        } else if (step === 3) {
+            result = step3Schema.safeParse(values);
         }
-        if (step === 2) {
-            if (!values.brandName || !values.industry) {
-                setServerError("Please fill in brand profile.");
-                return;
-            }
+
+        if (result && !result.success) {
+            setServerError(result.error.errors[0].message);
+            return;
         }
+
         setServerError("");
         setStep((step + 1) as Step);
     };
@@ -105,7 +125,7 @@ export default function BrandSignupPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F3F4F6] flex flex-col">
+        <div className="min-h-screen bg-background flex flex-col">
             <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-lime-400 rounded-full blur-[150px] opacity-10 -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
             <header className="w-full px-6 py-6 flex items-center justify-between max-w-7xl mx-auto relative z-10">

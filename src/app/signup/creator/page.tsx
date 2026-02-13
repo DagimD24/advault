@@ -8,7 +8,7 @@ import {
     ArrowRight,
     Eye,
     EyeOff,
-    Sparkles,
+    UserCircle,
     Camera,
     Loader2,
     Check,
@@ -19,8 +19,34 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useForm } from "@tanstack/react-form";
+import { z } from "zod";
 
 type Step = 1 | 2 | 3;
+
+const step1Schema = z.object({
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+}).refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+});
+
+const step2Schema = z.object({
+    name: z.string().min(2, "Name is too short"),
+    bio: z.string().max(250, "Bio too long").optional().or(z.literal("")),
+    avatar: z.string().url("Invalid avatar URL").optional().or(z.literal("")),
+    platform: z.string().min(1, "Select a platform"),
+    category: z.string().min(1, "Select a category"),
+});
+
+const step3Schema = z.object({
+    followers: z.string().min(1, "Follower count is required"),
+    views: z.string().min(1, "Average views are required"),
+    startingPrice: z.string().min(1, "Starting price is required"),
+    currency: z.string(),
+    availableSlots: z.string(),
+});
 
 export default function CreatorSignupPage() {
     const router = useRouter();
@@ -61,6 +87,14 @@ export default function CreatorSignupPage() {
         onSubmit: async ({ value }) => {
             setServerError("");
             try {
+                // Final validation before submission
+                const fullSchema = step1Schema.and(step2Schema).and(step3Schema);
+                const result = fullSchema.safeParse(value);
+                if (!result.success) {
+                    setServerError(result.error.errors[0].message);
+                    return;
+                }
+
                 // TODO: Replace with actual registration logic
                 await new Promise((resolve) => setTimeout(resolve, 1500));
                 router.push("/creator/dashboard");
@@ -81,30 +115,21 @@ export default function CreatorSignupPage() {
 
     const handleNext = async () => {
         const values = form.state.values;
+        let result;
+
         if (step === 1) {
-            if (!values.email || !values.password || !values.confirmPassword) {
-                setServerError("Please fill in account details.");
-                return;
-            }
-            if (!/\S+@\S+\.\S+/.test(values.email)) {
-                setServerError("Invalid email address.");
-                return;
-            }
-            if (values.password.length < 8) {
-                setServerError("Password must be at least 8 characters.");
-                return;
-            }
-            if (values.password !== values.confirmPassword) {
-                setServerError("Passwords do not match.");
-                return;
-            }
+            result = step1Schema.safeParse(values);
+        } else if (step === 2) {
+            result = step2Schema.safeParse(values);
+        } else if (step === 3) {
+            result = step3Schema.safeParse(values);
         }
-        if (step === 2) {
-            if (!values.name || !values.platform || !values.category) {
-                setServerError("Please fill in profile details.");
-                return;
-            }
+
+        if (result && !result.success) {
+            setServerError(result.error.errors[0].message);
+            return;
         }
+
         setServerError("");
         setStep((step + 1) as Step);
     };
@@ -118,7 +143,7 @@ export default function CreatorSignupPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#F3F4F6] flex flex-col">
+        <div className="min-h-screen font-jost bg-background flex flex-col">
             <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-lime-400 rounded-full blur-[150px] opacity-10 -translate-y-1/2 translate-x-1/3 pointer-events-none" />
 
             <header className="w-full px-6 py-6 flex items-center justify-between max-w-7xl mx-auto relative z-10">
@@ -151,7 +176,7 @@ export default function CreatorSignupPage() {
                     <div className="mb-8">
                         <div className="flex items-center gap-3 mb-3">
                             <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center">
-                                <Sparkles className="h-5 w-5 text-lime-400" />
+                                <UserCircle className="h-6 w-6 text-lime-400" />
                             </div>
                             <h1 className="text-3xl font-moralana text-black">
                                 Create Creator Account
