@@ -80,7 +80,7 @@ export default function FilterBar() {
   const paymentMethods = ["Telebirr", "Chapa", "CBE Birr", "Safaricom M-Pesa"];
 
   return (
-    <div className="bg-[#F3F4F6]/80 backdrop-blur-md border-b border-white/50 py-6 sticky top-20 z-40">
+    <div className="bg-background/80 backdrop-blur-md border-b border-white/50 py-6 sticky top-20 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
           

@@ -44,7 +44,7 @@ export default function CampaignCard({
 
   return (
     <Link href={`/campaigns/${id}`} className="block group">
-      <div className="bg-white rounded-[2rem] border border-gray-100 p-6 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 hover:-translate-y-1">
+      <div className="font-jost bg-white rounded-[2rem] border border-gray-100 p-6 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 hover:-translate-y-1">
         {/* Brand Header */}
         <div className="flex items-center gap-3 mb-5">
           <div className="h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center overflow-hidden border border-gray-100">

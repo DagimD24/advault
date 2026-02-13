@@ -19,10 +19,10 @@ export default function MarketplaceExplorer({ initialOffers = [] }: MarketplaceE
   const isLoading = !creatorsData;
 
   return (
-    <div className="min-h-screen bg-[#F3F4F6]">
+    <div className="min-h-screen font-jost bg-background">
       <Header />
       <FilterBar />
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8 flex items-end justify-between">
           <div>
@@ -34,7 +34,7 @@ export default function MarketplaceExplorer({ initialOffers = [] }: MarketplaceE
             </p>
           </div>
           <span className="text-sm font-bold text-gray-400 uppercase tracking-widest bg-white px-4 py-2 rounded-full border border-gray-100 shadow-sm">
-             {displayCreators.length} creators
+            {displayCreators.length} creators
           </span>
         </div>
 

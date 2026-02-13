@@ -20,7 +20,7 @@ export default function DashboardPage() {
 
   // Get the first brand as the mock/demo brand
   const brand = useQuery(api.brands.getFirst) as Brand | null | undefined;
-  
+
   // Get campaigns for this brand
   const campaigns = useQuery(
     api.campaigns.getByBrandId,
@@ -41,7 +41,7 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-lime-400"></div>
       </div>
     );
@@ -49,7 +49,7 @@ export default function DashboardPage() {
 
   if (!brand) {
     return (
-      <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-moralana text-black mb-4">No Brand Found</h1>
           <p className="text-gray-500">Please add a brand to the database first.</p>
@@ -59,22 +59,22 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F3F4F6]">
+    <div className="min-h-screen font-jost bg-background">
       <Header />
-      
+
       <div className="flex pl-20">
-        <Sidebar 
-          activeTab={activeTab} 
-          onTabChange={setActiveTab} 
+        <Sidebar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
         />
-        
+
         <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {activeTab === 'overview' && (
             <OverviewTab campaigns={campaigns || []} />
           )}
           {activeTab === 'campaigns' && (
-            <CampaignsTab 
-              campaigns={campaigns || []} 
+            <CampaignsTab
+              campaigns={campaigns || []}
               brand={brand}
               onCreateCampaign={handleCreateCampaign}
               onEditCampaign={handleEditCampaign}

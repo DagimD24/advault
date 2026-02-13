@@ -100,7 +100,7 @@ export default function OutreachPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="animate-spin h-12 w-12 text-lime-400" />
       </div>
     );
@@ -108,7 +108,7 @@ export default function OutreachPage() {
 
   if (!creator) {
     return (
-      <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-moralana text-black mb-4">Creator Not Found</h1>
           <Link href="/" className="text-lime-600 hover:underline font-bold">
@@ -127,7 +127,7 @@ export default function OutreachPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F3F4F6] pb-12">
+    <div className="min-h-screen bg-background pb-12">
       <Header />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">

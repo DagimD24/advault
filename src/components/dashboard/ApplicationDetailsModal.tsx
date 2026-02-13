@@ -87,7 +87,7 @@ export default function ApplicationDetailsModal({ isOpen, onClose, application, 
       />
       
       {/* Modal Container */}
-      <div className="relative bg-[#F3F4F6] rounded-[3rem] w-full max-w-5xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col border border-white/20">
+      <div className="relative bg-background rounded-[3rem] w-full max-w-5xl max-h-[90vh] overflow-hidden shadow-2xl flex flex-col border border-white/20">
         
         {/* Header */}
         <div className="bg-white px-8 py-6 border-b border-gray-100 flex items-center justify-between">

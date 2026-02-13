@@ -22,7 +22,7 @@ export default function CreatorMarketplacePage() {
   const isLoading = campaignsData === undefined;
 
   return (
-    <div className="min-h-screen bg-[#F3F4F6]">
+    <div className="min-h-screen bg-background">
       <Header />
       <FilterBar />
       

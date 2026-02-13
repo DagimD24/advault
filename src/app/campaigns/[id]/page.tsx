@@ -93,7 +93,7 @@ export default function CampaignDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="animate-spin h-12 w-12 text-lime-400" />
       </div>
     );
@@ -101,7 +101,7 @@ export default function CampaignDetailPage() {
 
   if (!campaign) {
     return (
-      <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-moralana text-black mb-4">Campaign Not Found</h1>
           <Link href="/creator" className="text-lime-600 hover:underline font-bold">
@@ -113,7 +113,7 @@ export default function CampaignDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F3F4F6] pb-12">
+    <div className="min-h-screen bg-background pb-12">
       <Header />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">

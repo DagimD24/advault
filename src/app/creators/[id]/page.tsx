@@ -18,7 +18,7 @@ export default function CreatorProfile() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+            <div className="min-h-screen bg-background flex items-center justify-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-lime-400"></div>
             </div>
         );
@@ -36,7 +36,7 @@ export default function CreatorProfile() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#F3F4F6] pb-12">
+        <div className="min-h-screen bg-background pb-12">
             <Header />
 
             <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">

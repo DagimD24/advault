@@ -16,7 +16,7 @@ export default function LandingPageRoute() {
     };
 
     return (
-        <div className="bg-[#F3F4F6] min-h-screen font-sans text-black overflow-x-hidden selection:bg-lime-400 selection:text-black">
+        <div className="bg-background min-h-screen font-jost text-black overflow-x-hidden selection:bg-lime-400 selection:text-black">
 
             {/* Navbar */}
             <nav className="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between relative z-50">
@@ -65,7 +65,7 @@ export default function LandingPageRoute() {
                             <h1 className="text-6xl md:text-8xl font-moralana tracking-tight leading-[1.1] text-black">
                                 Influence <br />
                                 <span className="inline-flex items-center gap-4">
-                                    <span className="text-lime-500 animate-spin-slow text-5xl md:text-7xl">✦</span>
+                                    <Zap size={48} className="text-lime-500 fill-lime-500/20" />
                                     Amplified
                                 </span>
                             </h1>

@@ -11,7 +11,7 @@ export default function Header() {
   const isCreatorMode = pathname === '/creator' || pathname.startsWith('/creator/') || pathname.startsWith('/campaigns/');
 
   return (
-    <header className="sticky top-0 z-50 bg-[#F3F4F6]/80 backdrop-blur-md border-b border-white/50">
+    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-white/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           {/* Logo - Always Visible */}

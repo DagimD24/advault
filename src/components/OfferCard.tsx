@@ -23,7 +23,7 @@ export default function OfferCard({
   availableSlots,
 }: OfferCardProps) {
   return (
-    <div className="group bg-white rounded-[2rem] border border-gray-100 p-6 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
+    <div className="group font-jost bg-[#f4fdf2] rounded-[2rem] border border-gray-100 p-6 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
       {/* Header */}
       <div className="flex justify-between items-start mb-6">
         <div className="flex items-center gap-3">
@@ -74,7 +74,7 @@ export default function OfferCard({
 
       {/* Stats Row */}
       <div className="grid grid-cols-3 gap-3 mb-8">
-        <div className="bg-gray-50 rounded-2xl p-3 flex flex-col items-center justify-center text-center border border-gray-100 transition-colors">
+        <div className="bg-[#e8fbe8] rounded-2xl p-3 flex flex-col items-center justify-center text-center border border-gray-100 transition-colors">
           <Eye className="h-4 w-4 text-gray-400 mb-1" />
           <span className="block text-sm font-bold text-black">
             {stats.views}
@@ -83,7 +83,7 @@ export default function OfferCard({
             Avg Views
           </span>
         </div>
-        <div className="bg-gray-50 rounded-2xl p-3 flex flex-col items-center justify-center text-center border border-gray-100 transition-colors">
+        <div className="bg-[#e8fbe8] rounded-2xl p-3 flex flex-col items-center justify-center text-center border border-gray-100 transition-colors">
           <Users className="h-4 w-4 text-gray-400 mb-1" />
           <span className="block text-sm font-bold text-black">
             {stats.followers}
@@ -92,7 +92,7 @@ export default function OfferCard({
             Followers
           </span>
         </div>
-        <div className="bg-gray-50 rounded-2xl p-3 flex flex-col items-center justify-center text-center border border-gray-100 transition-colors">
+        <div className="bg-[#e8fbe8] rounded-2xl p-3 flex flex-col items-center justify-center text-center border border-gray-100 transition-colors">
           <BarChart3 className="h-4 w-4 text-gray-400 mb-1" />
           <span className="block text-sm font-bold text-black">
             {availableSlots}

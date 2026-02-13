@@ -21,7 +21,7 @@ export default function CreatorDashboardPage() {
 
   // Get demo creator
   const creator = useQuery(api.creators.getFirst) as Creator | null | undefined;
-  
+
   // Get creator's applications
   const applications = useQuery(
     api.applications.getByCreatorId,
@@ -32,7 +32,7 @@ export default function CreatorDashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="animate-spin h-12 w-12 text-lime-400" />
       </div>
     );
@@ -40,7 +40,7 @@ export default function CreatorDashboardPage() {
 
   if (!creator) {
     return (
-      <div className="min-h-screen bg-[#F3F4F6] flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-moralana text-black mb-4">Creator Not Found</h1>
           <p className="text-gray-500">Please set up your creator profile first.</p>
@@ -50,9 +50,9 @@ export default function CreatorDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F3F4F6]">
+    <div className="min-h-screen font-jost bg-background">
       <Header />
-      
+
       <div className="flex pl-20">
         <CreatorSidebar activeTab={activeTab} onTabChange={setActiveTab} />
 
@@ -61,15 +61,15 @@ export default function CreatorDashboardPage() {
           {activeTab === 'deals' && (
             <DealsTab applications={applications || []} />
           )}
-          
+
           {activeTab === 'chats' && (
             <CreatorChatsTab creator={creator} applications={applications || []} />
           )}
-          
+
           {activeTab === 'wallet' && (
             <CreatorWalletTab creator={creator} />
           )}
-          
+
           {activeTab === 'profile' && (
             <CreatorProfileTab creator={creator} />
           )}
