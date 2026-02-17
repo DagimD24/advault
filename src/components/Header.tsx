@@ -4,9 +4,11 @@ import { Bell, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { authClient } from "@/lib/auth-client";
 
 export default function Header() {
   const pathname = usePathname();
+  const { data: session } = authClient.useSession();
   const isDashboard = pathname.includes('/dashboard');
   const isCreatorMode = pathname === '/creator' || pathname.startsWith('/creator/') || pathname.startsWith('/campaigns/');
 
@@ -59,11 +61,21 @@ export default function Header() {
             </button>
 
             {/* Profile */}
-            <button className="flex items-center gap-2 pl-2 group">
-              <div className="h-10 w-10 bg-black rounded-full flex items-center justify-center text-lime-400 font-bold text-sm border-2 border-white shadow-sm group-hover:scale-105 transition-transform">
-                BR
-              </div>
-            </button>
+            <div className="flex items-center gap-2 pl-2 group relative">
+              <button className="flex items-center gap-2 group">
+                <div className="h-10 w-10 bg-black rounded-full overflow-hidden flex items-center justify-center text-lime-400 font-bold text-sm border-2 border-white shadow-sm group-hover:scale-105 transition-transform">
+                  {session?.user?.image ? (
+                    <img 
+                      src={session.user.image} 
+                      alt={session.user.name || "User"} 
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <span>{session?.user?.name?.substring(0, 2).toUpperCase() || "AV"}</span>
+                  )}
+                </div>
+              </button>
+            </div>
 
             {/* Mobile Menu */}
             <button className="md:hidden p-2 text-gray-500 hover:text-black">

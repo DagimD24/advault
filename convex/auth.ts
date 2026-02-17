@@ -3,33 +3,43 @@ import { convex } from "@convex-dev/better-auth/plugins";
 import { components } from "./_generated/api";
 import { DataModel } from "./_generated/dataModel";
 import { query } from "./_generated/server";
-import { betterAuth } from "better-auth/minimal";
+import { betterAuth } from "better-auth"; 
 import authConfig from "./auth.config";
 
 const siteUrl = process.env.SITE_URL!;
 
-// The component client has methods needed for integrating Convex with Better Auth,
-// as well as helper methods for general use.
 export const authComponent = createClient<DataModel>(components.betterAuth);
 
 export const createAuth = (ctx: GenericCtx<DataModel>) => {
   return betterAuth({
     baseURL: siteUrl,
+    secret: process.env.BETTER_AUTH_SECRET!,
+    
+    // 1. The Adapter (This connects Better-Auth to your Convex DB)
     database: authComponent.adapter(ctx),
-    // Configure simple, non-verified email/password to get started
+    
+    // 2. Email & Password Logic
     emailAndPassword: {
       enabled: true,
-      requireEmailVerification: false,
+      requireEmailVerification: false, // Set to true if you want email verification
     },
+    
+    // 3. Social Providers
+    socialProviders: {
+      google: {
+        clientId: process.env.GOOGLE_CLIENT_ID!,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      },
+    },
+    
+    // 4. The Plugin (Required for the Component to work)
     plugins: [
-      // The Convex plugin is required for Convex compatibility
       convex({ authConfig }),
     ],
-  })
-}
+  });
+};
 
-// Example function for getting the current user
-// Feel free to edit, omit, etc.
+// Helper to get the current user in your queries
 export const getCurrentUser = query({
   args: {},
   handler: async (ctx) => {

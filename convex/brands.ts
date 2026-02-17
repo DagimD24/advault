@@ -1,43 +1,60 @@
-import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { mutation, query } from "./_generated/server";
 
-export const list = query({
-  handler: async (ctx) => {
-    return await ctx.db.query("brands").collect();
-  },
-});
-
-// Get a single brand by ID
-export const getById = query({
-  args: { id: v.id("brands") },
-  handler: async (ctx, args) => {
-    return await ctx.db.get(args.id);
-  },
-});
-
-// Get the first brand (for mock/demo purposes)
 export const getFirst = query({
+  args: {},
   handler: async (ctx) => {
-    const brands = await ctx.db.query("brands").take(1);
-    return brands[0] || null;
+    return await ctx.db.query("brands").first();
   },
 });
 
-// Update brand profile
-export const update = mutation({
+export const getBrandByUserId = query({
   args: {
-    id: v.id("brands"),
-    name: v.optional(v.string()),
+    userId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("brands")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+  },
+});
+
+export const createBrand = mutation({
+  args: {
+    userId: v.string(),
+    email: v.string(),
+    name: v.string(),
     logo: v.optional(v.string()),
     industry: v.optional(v.string()),
+    website: v.optional(v.string()),
+    description: v.optional(v.string()),
+    walletCurrency: v.string(),
   },
   handler: async (ctx, args) => {
-    const { id, ...updates } = args;
-    // Filter out undefined values
-    const filteredUpdates = Object.fromEntries(
-      Object.entries(updates).filter(([_, v]) => v !== undefined)
-    );
-    await ctx.db.patch(id, filteredUpdates);
-    return await ctx.db.get(id);
+    // Check if brand already exists for this user
+    const existingBrand = await ctx.db
+      .query("brands")
+      .withIndex("by_userId", (q) => q.eq("userId", args.userId))
+      .first();
+
+    if (existingBrand) {
+      return existingBrand._id;
+    }
+
+    // Create new brand
+    const brandId = await ctx.db.insert("brands", {
+      userId: args.userId,
+      name: args.name,
+      logo: args.logo || "",
+      verified: false,
+      industry: args.industry || "",
+      website: args.website || "",
+      description: args.description || "",
+      walletBalance: 0,
+      walletCurrency: args.walletCurrency,
+    });
+
+    return brandId;
   },
 });

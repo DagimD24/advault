@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery } from "convex/react";
-import { api } from "../../../convex/_generated/api";
+import { api } from "@/../convex/_generated/api";
 import Header from "@/components/Header";
 import Sidebar from "@/components/dashboard/Sidebar";
 import OverviewTab from "@/components/dashboard/OverviewTab";
@@ -11,6 +11,7 @@ import WalletTab from "@/components/dashboard/WalletTab";
 import ChatsTab from "@/components/dashboard/ChatsTab";
 import ProfileTab from "@/components/dashboard/ProfileTab";
 import CreateCampaignModal from "@/components/dashboard/CreateCampaignModal";
+import { authClient } from "@/lib/auth-client";
 import { Brand, Campaign } from "@/lib/types";
 
 export default function DashboardPage() {
@@ -18,8 +19,20 @@ export default function DashboardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCampaign, setEditingCampaign] = useState<Campaign | null>(null);
 
-  // Get the first brand as the mock/demo brand
-  const brand = useQuery(api.brands.getFirst) as Brand | null | undefined;
+  // Get current user session
+  const { data: session } = authClient.useSession();
+
+  // Get the brand associated with the logged-in user
+  const userBrand = useQuery(
+    api.brands.getBrandByUserId,
+    session?.user?.id ? { userId: session.user.id } : "skip"
+  );
+
+  // Fallback to getting the first brand if no user brand found or loading
+  const firstBrand = useQuery(api.brands.getFirst);
+
+  // Use the authenticated brand, or the first one as fallback
+  const brand = (userBrand || firstBrand) as Brand | null | undefined;
 
   // Get campaigns for this brand
   const campaigns = useQuery(
@@ -27,7 +40,7 @@ export default function DashboardPage() {
     brand?._id ? { brandId: brand._id } : "skip"
   ) as Campaign[] | undefined;
 
-  const isLoading = brand === undefined;
+  const isLoading = (session === undefined) || (brand === undefined);
 
   const handleCreateCampaign = () => {
     setEditingCampaign(null);

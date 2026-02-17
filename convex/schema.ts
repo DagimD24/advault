@@ -3,6 +3,8 @@ import { v } from "convex/values";
 
 export default defineSchema({
   creators: defineTable({
+    userId: v.optional(v.string()), // <--- LINK TO AUTH SYSTEM (The User's Login ID)
+    
     type: v.optional(v.string()),
     name: v.string(),
     initials: v.string(),
@@ -20,33 +22,41 @@ export default defineSchema({
     currency: v.string(),
     availableSlots: v.number(),
     trustScore: v.string(),
-  }).index("by_platform", ["platform"]),
+  })
+  .index("by_platform", ["platform"])
+  .index("by_userId", ["userId"]), // <--- INDEX FOR FAST LOOKUPS
 
   brands: defineTable({
+    userId: v.optional(v.string()), // <--- LINK TO AUTH SYSTEM
+    
     name: v.string(),
     logo: v.string(),
     verified: v.boolean(),
     industry: v.string(),
+    website: v.optional(v.string()),
+    description: v.optional(v.string()),
     // Wallet fields
-    walletBalance: v.number(), // Balance in cents/smallest currency unit
-    walletCurrency: v.string(), // e.g., "USD", "ETB"
-  }).index("by_name", ["name"]),
+    walletBalance: v.number(), 
+    walletCurrency: v.string(), 
+  })
+  .index("by_name", ["name"])
+  .index("by_userId", ["userId"]), // <--- INDEX FOR FAST LOOKUPS
 
   walletTransactions: defineTable({
     brandId: v.id("brands"),
     type: v.union(
-      v.literal("deposit"),      // Top-up
-      v.literal("withdrawal"),   // Cash out
-      v.literal("escrow_lock"),  // Funds locked for a campaign/order
-      v.literal("escrow_release"), // Funds released to creator
-      v.literal("refund")        // Funds returned from escrow
+      v.literal("deposit"),      
+      v.literal("withdrawal"),   
+      v.literal("escrow_lock"),  
+      v.literal("escrow_release"), 
+      v.literal("refund")        
     ),
-    amount: v.number(), // Amount in cents/smallest currency unit
+    amount: v.number(), 
     currency: v.string(),
     description: v.string(),
-    reference: v.optional(v.string()), // External payment reference or campaign ID
-    campaignId: v.optional(v.id("campaigns")), // Related campaign if applicable
-    createdAt: v.number(), // Timestamp
+    reference: v.optional(v.string()), 
+    campaignId: v.optional(v.id("campaigns")), 
+    createdAt: v.number(), 
   }).index("by_brandId", ["brandId"]).index("by_type", ["type"]),
 
   campaigns: defineTable({
@@ -73,22 +83,20 @@ export default defineSchema({
     campaignId: v.id("campaigns"),
     creatorId: v.id("creators"),
     status: v.union(
-      v.literal("pending_creator"), // Brand sent offer, waiting for creator response
-      v.literal("applicant"),       // Creator applied (existing flow)
+      v.literal("pending_creator"), 
+      v.literal("applicant"),       
       v.literal("shortlisted"),
       v.literal("negotiating"),
       v.literal("hired"),
       v.literal("completed"),
-      v.literal("declined")         // Creator declined the offer
+      v.literal("declined")         
     ),
     matchScore: v.number(),
     bidAmount: v.string(),
     bidCurrency: v.string(),
-    // New fields for brand-initiated outreach
     initiatedBy: v.union(v.literal("brand"), v.literal("creator")),
-    offeredAmount: v.optional(v.number()), // Amount in cents
+    offeredAmount: v.optional(v.number()), 
     offeredCurrency: v.optional(v.string()),
-    // Content fields
     contentDraftUrl: v.optional(v.string()),
     contentStatus: v.optional(v.union(
       v.literal("pending"),
@@ -99,8 +107,8 @@ export default defineSchema({
   }).index("by_campaignId", ["campaignId"]).index("by_creatorId", ["creatorId"]).index("by_status", ["status"]),
 
   messages: defineTable({
-    applicationId: v.id("applications"), // The deal/application this chat belongs to
-    senderId: v.string(), // Brand ID or Creator ID
+    applicationId: v.id("applications"), 
+    senderId: v.string(), 
     senderType: v.union(v.literal("brand"), v.literal("creator")),
     content: v.string(),
     createdAt: v.number(),
